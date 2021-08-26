@@ -2,8 +2,7 @@
     package="com.example.denizey">
    <application
         android:label="denizey"
-        android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -1,4 +1,5 @@
 import 'package:denizey/components.dart';
+import 'package:denizey/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -31,21 +32,42 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   //   super.dispose();
   // }
 
-  // Example code of how to sign in with email and password.
-  Future<void> _createUserWithEmailAndPassword() async {
+  Future<void> _signInWithEmailAndPassword() async {
     try {
-      final User? user = (await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
-      ))
-          .user;
-      snackBar = SnackBar(content: Text('${user!.email} signed in'));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      );
+      // snackBar = SnackBar(content: Text('${user!.email} signed in'));
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomeScreen();
+      }));
     } catch (e) {
       print('${e.toString()}');
       snackBar =
           SnackBar(content: Text('Failed to sign in with Email & Password'));
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  // Example code of how to sign in with email and password.
+  Future<void> _createUserWithEmailAndPassword() async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      // snackBar = SnackBar(content: Text('${user!.email} created'));
+      //  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomeScreen();
+      }));
+    } catch (e) {
+      print('${e.toString()}');
+      snackBar =
+          SnackBar(content: Text('Failed to create with Email & Password'));
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -98,6 +120,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty)
+                              return 'Please enter your Email!';
+                          },
                           controller: _emailController,
                           decoration:
                               InputDecoration(hintText: 'Email Address'),
@@ -108,7 +134,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             controller: _passwordController,
                             validator: (value) {
                               if (value!.isEmpty)
-                                return 'Please enter some text';
+                                return 'Please enter your Password!';
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
@@ -123,7 +149,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           child: MaterialButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                // await _signInWithEmailAndPassword();
+                                await _signInWithEmailAndPassword();
+                                setState(() {});
+                                _emailController.clear();
+                                _passwordController.clear();
                               }
                             },
                             child: Text('Login'),
@@ -146,13 +175,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          // if (_formKey.currentState!.validate()) {
-                          await _createUserWithEmailAndPassword();
-                          _emailController.clear();
-                          _passwordController.clear();
-                          setState(() {});
+                          if (_formKey.currentState!.validate()) {
+                            await _createUserWithEmailAndPassword();
+                            _emailController.clear();
+                            _passwordController.clear();
+                            setState(() {});
+                          }
                         },
-                        // },
                         child: Text(
                           'Register Now',
                           style: TextStyle(
