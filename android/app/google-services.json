@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "207301567284",
+    "project_id": "denizey-3b625",
+    "storage_bucket": "denizey-3b625.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207301567284:android:3c4589f8322cafd3383b61",
+        "android_client_info": {
+          "package_name": "com.example.denizey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207301567284-4den7temu42urfkhhikrsjvchvmgr918.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.denizey",
+            "certificate_hash": "95b157fc4f32225a9cd06129ef178a4456816c6b"
+          }
+        },
+        {
+          "client_id": "207301567284-vu47v32mueq2706nhsdqn3i4311fvp0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtymCRHA4I0qedPolxdRf_9aVgCRCiVkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207301567284-vu47v32mueq2706nhsdqn3i4311fvp0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
