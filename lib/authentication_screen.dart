@@ -195,9 +195,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        authIcon(Icons.email),
-                        authIcon(Icons.facebook),
-                        authIcon(Icons.phone_iphone)
+                        authIcon('assets/google-logo.jpg', 10.0, 10.0),
+                        authIcon('assets/Facebook-logo.jpg', 40.0, 40.0),
+                        authIcon('assets/Apple.jpg', 40.0, 40.0)
                       ],
                     ),
                   ),
@@ -205,6 +205,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
+                        onTap: () {},
                         child: Container(
                             decoration: BoxDecoration(
                                 border: Border(
@@ -215,7 +216,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             )),
                             child: Text(
                               'Continue as Guest',
-                              style: TextStyle(color: Colors.purple[300]),
+                              style: TextStyle(
+                                  color: Colors.purple[300],
+                                  fontWeight: FontWeight.bold),
                             )),
                       ),
                     ],

@@ -2,7 +2,6 @@ import 'package:denizey/authentication_screen.dart';
 import 'package:denizey/cache/app_cache.dart';
 import 'package:flutter/material.dart';
 
-
 Widget languageButton(BuildContext context, String language) {
   AppCache.init();
   return Padding(
@@ -29,10 +28,11 @@ Widget languageButton(BuildContext context, String language) {
   );
 }
 
-Widget authIcon(IconData logo) {
+Widget authIcon(String imagePath, double height, double width) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: InkWell(
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white70,
@@ -40,7 +40,9 @@ Widget authIcon(IconData logo) {
         ),
         height: 40.0,
         width: 40.0,
-        child: Icon(logo),
+        child: Image.asset(
+          imagePath,
+        ),
       ),
     ),
   );
