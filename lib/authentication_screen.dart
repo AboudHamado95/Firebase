@@ -73,6 +73,20 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     }
   }
 
+  Future<void> _signInAnonymously() async {
+    try {
+      await _auth.signInAnonymously();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomeScreen();
+      }));
+    } catch (e) {
+      print('${e.toString()}');
+      snackBar = SnackBar(content: Text('Failed to sign in Anonymously'));
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -205,7 +219,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () => _signInAnonymously(),
                         child: Container(
                             decoration: BoxDecoration(
                                 border: Border(
