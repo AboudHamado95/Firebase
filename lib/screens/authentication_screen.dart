@@ -1,7 +1,10 @@
-import 'package:denizey/components.dart';
-import 'package:denizey/home_screen.dart';
+import 'package:denizey/authentication/authentication.dart';
+import 'package:denizey/components/components.dart';
+// import 'package:denizey/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -11,81 +14,38 @@ class AuthenticationScreen extends StatefulWidget {
 }
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late User user;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late SnackBar snackBar;
 
-  // @override
-  // void initState() {
-  //   _auth.userChanges().listen((event) => setState(() => user = event!));
-  //   super.initState();
+  // Future<void> _signInWithGoogle() async {
+  //   try {
+  //     UserCredential userCredential;
+
+  //     if (kIsWeb) {
+  //       var googleProvider = GoogleAuthProvider();
+  //       userCredential = await _auth.signInWithPopup(googleProvider);
+  //     } else {
+  //       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //       final GoogleSignInAuthentication googleAuth =
+  //           await googleUser!.authentication;
+  //       final googleAuthCredential = GoogleAuthProvider.credential(
+  //         accessToken: googleAuth.accessToken,
+  //         idToken: googleAuth.idToken,
+  //       );
+  //       userCredential = await _auth.signInWithCredential(googleAuthCredential);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     snackBar = SnackBar(content: Text('Failed to sign in with Google: $e'));
+
+  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //   }
   // }
-
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
-
-  Future<void> _signInWithEmailAndPassword() async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // snackBar = SnackBar(content: Text('${user!.email} signed in'));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomeScreen();
-      }));
-    } catch (e) {
-      print('${e.toString()}');
-      snackBar =
-          SnackBar(content: Text('Failed to sign in with Email & Password'));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
-  // Example code of how to sign in with email and password.
-  Future<void> _createUserWithEmailAndPassword() async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // snackBar = SnackBar(content: Text('${user!.email} created'));
-      //  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomeScreen();
-      }));
-    } catch (e) {
-      print('${e.toString()}');
-      snackBar =
-          SnackBar(content: Text('Failed to create with Email & Password'));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
-  Future<void> _signInAnonymously() async {
-    try {
-      await _auth.signInAnonymously();
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomeScreen();
-      }));
-    } catch (e) {
-      print('${e.toString()}');
-      snackBar = SnackBar(content: Text('Failed to sign in Anonymously'));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,14 +98,14 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             if (value!.isEmpty)
                               return 'Please enter your Email!';
                           },
-                          controller: _emailController,
+                          controller: emailController,
                           decoration:
                               InputDecoration(hintText: 'Email Address'),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 12.0),
                           child: TextFormField(
-                            controller: _passwordController,
+                            controller: passwordController,
                             validator: (value) {
                               if (value!.isEmpty)
                                 return 'Please enter your Password!';
@@ -163,10 +123,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           child: MaterialButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                await _signInWithEmailAndPassword();
+                                await signInWithEmailAndPassword(
+                                    context,
+                                    emailController.text,
+                                    passwordController.text);
                                 setState(() {});
-                                _emailController.clear();
-                                _passwordController.clear();
+                                emailController.clear();
+                                passwordController.clear();
                               }
                             },
                             child: Text('Login'),
@@ -190,10 +153,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       InkWell(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            await _createUserWithEmailAndPassword();
-                            _emailController.clear();
-                            _passwordController.clear();
+                            await createUserWithEmailAndPassword(context,
+                                emailController.text, passwordController.text);
                             setState(() {});
+                            emailController.clear();
+                            passwordController.clear();
                           }
                         },
                         child: Text(
@@ -209,9 +173,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        authIcon('assets/google-logo.jpg', 10.0, 10.0),
-                        authIcon('assets/Facebook-logo.jpg', 40.0, 40.0),
-                        authIcon('assets/Apple.jpg', 40.0, 40.0)
+                        authIcon('assets/google-logo.jpg', context,
+                            signInWithGoogle(context)),
+                        authIcon('assets/Facebook-logo.jpg', context,
+                            signInWithGoogle(context)),
+                        authIcon('assets/Apple.jpg', context,
+                            signInWithGoogle(context))
                       ],
                     ),
                   ),
@@ -219,7 +186,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () => _signInAnonymously(),
+                        onTap: () => signInAnonymously(context),
                         child: Container(
                             decoration: BoxDecoration(
                                 border: Border(

@@ -1,6 +1,6 @@
-import 'package:denizey/authentication_screen.dart';
+import 'package:denizey/screens/authentication_screen.dart';
 import 'package:denizey/cache/app_cache.dart';
-import 'package:denizey/language_screen.dart';
+import 'package:denizey/screens/language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 main(List<String> args) async {

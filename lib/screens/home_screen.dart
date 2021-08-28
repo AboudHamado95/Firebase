@@ -1,5 +1,6 @@
-import 'package:denizey/components.dart';
 import 'package:flutter/material.dart';
+
+import 'package:denizey/components/components.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
                         )
                       ],
                     ),
-                    searchFormfield(),
+                    searchFormField(),
                   ],
                 ),
               ),
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(24.0)),
           child: Container(
-            height:80.0,
+            height: 80.0,
             color: Colors.grey[300],
             child: TabBar(
               indicatorColor: Colors.purple,

@@ -1,4 +1,5 @@
-import 'package:denizey/authentication_screen.dart';
+import 'package:denizey/authentication/authentication.dart';
+import 'package:denizey/screens/authentication_screen.dart';
 import 'package:denizey/cache/app_cache.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,11 @@ Widget languageButton(BuildContext context, String language) {
   );
 }
 
-Widget authIcon(String imagePath, double height, double width) {
+Widget authIcon(String imagePath, context, Future<void> authentication) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: InkWell(
-      onTap: () {},
+      onTap: () => authentication,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white70,
@@ -48,7 +49,7 @@ Widget authIcon(String imagePath, double height, double width) {
   );
 }
 
-Widget searchFormfield() {
+Widget searchFormField() {
   return Padding(
     padding: const EdgeInsets.only(top: 40.0),
     child: Container(

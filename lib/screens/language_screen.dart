@@ -1,7 +1,6 @@
-import 'package:denizey/authentication_screen.dart';
-import 'package:denizey/cache/app_cache.dart';
-import 'package:denizey/components.dart';
 import 'package:flutter/material.dart';
+
+import 'package:denizey/components/components.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({Key? key}) : super(key: key);
