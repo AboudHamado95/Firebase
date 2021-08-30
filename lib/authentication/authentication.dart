@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '../screens/home_screen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
 late SnackBar snackBar;
 
 Future<void> signInWithEmailAndPassword(
@@ -29,7 +32,6 @@ Future<void> signInWithEmailAndPassword(
   }
 }
 
-// Example code of how to sign in with email and password.
 Future<void> createUserWithEmailAndPassword(
     BuildContext context, String email, String password) async {
   try {
@@ -65,7 +67,7 @@ Future<void> signInAnonymously(BuildContext context) async {
   }
 }
 
-Future<void> signInWithGoogle(BuildContext context) async {
+Future<void> signInWithGoogle(context) async {
   try {
     UserCredential userCredential;
 
@@ -93,20 +95,24 @@ Future<void> signInWithGoogle(BuildContext context) async {
   }
 }
 
-// Example code of how to sign in with Facebook.
-// Future<void> _signInWithFacebook(context, String tokenController) async {
-//   try {
-//     final AuthCredential credential = FacebookAuthProvider.credential(
-//       tokenController,
-//     );
-//     final User? user = (await _auth.signInWithCredential(credential)).user;
-//     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-//       return HomeScreen();
-//     }));
-//   } catch (e) {
-//     print(e);
-//     snackBar = SnackBar(content: Text('Failed to sign in with Facebook: $e'));
+Future<void> signInWithFacebook(context) async {
+  try {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if (result.status == LoginStatus.success) {
+      final AccessToken accessToken = result.accessToken!;
 
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   }
-// }
+      final AuthCredential credential = FacebookAuthProvider.credential(
+        accessToken.token,
+      );
+      final User? user = (await _auth.signInWithCredential(credential)).user;
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomeScreen();
+      }));
+    }
+  } catch (e) {
+    print(e);
+    // snackBar = SnackBar(content: Text('Failed to sign in with Facebook: $e'));
+
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Firebase App</string>
+    <string name="facebook_app_id">176741464562318</string>
+    <string name="fb_login_protocol_scheme">fb176741464562318</string>
+</resources>

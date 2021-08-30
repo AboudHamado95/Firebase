@@ -29,25 +29,37 @@ Widget languageButton(BuildContext context, String language) {
   );
 }
 
-Widget authIcon(String imagePath, context, Future<void> authentication) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: InkWell(
-      onTap: () => authentication,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white70,
-          shape: BoxShape.rectangle,
-        ),
-        height: 40.0,
-        width: 40.0,
-        child: Image.asset(
-          imagePath,
+// Widget authIcon(String imagePath, context, Function authentication) {
+class AuthIcon extends StatelessWidget {
+  final String imagePath;
+  final Function authentication;
+  const AuthIcon(
+      {Key? key, required this.imagePath, required this.authentication})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () => authentication(context),
+        child: Container(
+          decoration: BoxDecoration(  
+            color: Colors.white70,
+            shape: BoxShape.rectangle,
+          ),
+          height: 40.0,
+          width: 40.0,
+          child: Image.asset(
+            imagePath,
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
+
+// }
 
 Widget searchFormField() {
   return Padding(

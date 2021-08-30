@@ -173,12 +173,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        authIcon('assets/google-logo.jpg', context,
-                            signInWithGoogle(context)),
-                        authIcon('assets/Facebook-logo.jpg', context,
-                            signInWithGoogle(context)),
-                        authIcon('assets/Apple.jpg', context,
-                            signInWithGoogle(context))
+                        AuthIcon(
+                            imagePath: 'assets/google-logo.jpg',
+                            authentication: signInWithGoogle),
+                        AuthIcon(
+                            imagePath: 'assets/Facebook-logo.jpg',
+                            authentication: signInWithFacebook),
+                        AuthIcon(
+                            imagePath: 'assets/Apple.jpg',
+                            authentication: signInWithFacebook),
                       ],
                     ),
                   ),
