@@ -111,8 +111,8 @@ Future<void> signInWithFacebook(context) async {
     }
   } catch (e) {
     print(e);
-    // snackBar = SnackBar(content: Text('Failed to sign in with Facebook: $e'));
+    snackBar = SnackBar(content: Text('Failed to sign in with Facebook: $e'));
 
-    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
